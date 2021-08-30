@@ -179,14 +179,14 @@
           placeholder="选择参加工作时间">
         </el-date-picker>
       </el-form-item> -->
-      <el-form-item label="学号"
+      <!-- <el-form-item label="学号"
                     prop="jobNumber">
         <el-input v-model="queryParams.jobNumber"
                   placeholder="请输入学号"
                   clearable
                   size="small"
                   @keyup.enter.native="handleQuery" />
-      </el-form-item>
+      </el-form-item> -->
       <!-- <el-form-item label="所在党组织" prop="organId">
         <el-input
           v-model="queryParams.organId"
@@ -223,7 +223,7 @@
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="10"
+    <!-- <el-row :gutter="10"
             class="mb8">
       <el-col :span="1.5">
         <el-button type="primary"
@@ -262,7 +262,7 @@
       </el-col>
       <right-toolbar :showSearch.sync="showSearch"
                      @queryTable="getList"></right-toolbar>
-    </el-row>
+    </el-row> -->
 
     <el-table v-loading="loading"
               :data="emplsoyeeList"
@@ -276,9 +276,12 @@
       <el-table-column label="姓名"
                        align="center"
                        prop="userUame" />
-      <!-- <el-table-column label="性别"
+      <el-table-column label="人员类型"
                        align="center"
-                       prop="gender" /> -->
+                       prop="politic" />
+      <el-table-column label="关键步骤"
+                       align="center"
+                       prop="currentProcess" />
       <el-table-column prop="gender"
                        label="性别"
                        align="center"
@@ -287,54 +290,60 @@
           <span>{{scope.row.gender === 0 ?'男':scope.row.gender === 1 ?'女':'性别未知'}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="出生日期"
+      <el-table-column label="身份证号"
+                       align="center"
+                       prop="idCard" />
+      <el-table-column label="所在党支部"
+                       align="center"
+                       width="150px"
+                       prop="organId" />
+      <!-- <el-table-column label="出生日期"
                        align="center"
                        prop="birthday"
                        width="130">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.birthday, '{y}-{m}-{d}') }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <!-- <el-table-column label="曾用名"
                        align="center"
                        prop="nameUsed" /> -->
-      <el-table-column label="民族"
+      <!-- <el-table-column label="民族"
                        align="center"
                        prop="national" />
       <el-table-column label="单位"
                        align="center"
-                       prop="unit" />
+                       prop="unit" /> -->
       <!-- <el-table-column label="家庭出生"
                        align="center"
                        prop="homeAddress" /> -->
       <!-- <el-table-column label="人员类型"
                        align="center"
                        prop="personType" /> -->
-      <el-table-column label="政治面貌"
+      <!-- <el-table-column label="政治面貌"
                        align="center"
                        prop="politic" />
       <el-table-column label="毕业院校及专业"
                        align="center"
                        width="150px"
-                       prop="graduate" />
+                       prop="graduate" /> -->
       <!-- <el-table-column label="学历"
                        align="center"
                        prop="education" /> -->
-      <el-table-column label="现任职务"
+      <!-- <el-table-column label="现任职务"
                        align="center"
-                       prop="position" />
+                       prop="position" /> -->
       <!-- <el-table-column label="技术职称"
                        align="center"
                        prop="technology" /> -->
-      <el-table-column prop="degree"
+      <!-- <el-table-column prop="degree"
                        label="学位"
                        align="center"
                        width="60">
-        <!-- 0未加入1已加入2未包装3已包装 -->
         <template slot-scope="scope">
           <span>{{scope.row.degree === 1 ?'学士':scope.row.degree === 2 ?'硕士':scope.row.degree === 3 ?'博士':'学历未知'}}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <!-- <el-table-column label="学位"
                        align="center"
                        prop="degree" /> -->
@@ -366,19 +375,12 @@
           <span>{{ parseTime(scope.row.workDate, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column label="学号"
+      <!-- <el-table-column label="学号"
                        align="center"
                        prop="jobNumber" />
-      <el-table-column label="所在党组织"
-                       align="center"
-                       width="150px"
-                       prop="organId" />
-      <el-table-column label="身份证号"
-                       align="center"
-                       prop="idCard" />
       <el-table-column label="联系电话"
                        align="center"
-                       prop="telephone" />
+                       prop="telephone" /> -->
       <el-table-column label="操作"
                        align="center"
                        class-name="small-padding fixed-width">
@@ -406,7 +408,7 @@
     <!-- 添加或修改人员信息对话框 -->
     <el-dialog :title="title"
                :visible.sync="open"
-               width="600px"
+               width="1200px"
                append-to-body>
       <el-form ref="form"
                :model="form"
@@ -422,21 +424,6 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="性别"
-                          prop="gender">
-              <el-select v-model="form.gender"
-                         placeholder="请输入性别">
-                <el-option v-for="item in genders"
-                           :key="item.value"
-                           :label="item.label"
-                           :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
             <el-form-item label="出生日期"
                           prop="birthday">
               <el-date-picker clearable
@@ -449,6 +436,8 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="12">
             <el-form-item label="民族"
                           prop="national">
@@ -456,8 +445,6 @@
                         placeholder="请输入民族" />
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
             <el-form-item label="单位"
                           prop="unit">
@@ -465,21 +452,15 @@
                         placeholder="请输入单位" />
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="12">
             <el-form-item label="政治面貌"
                           prop="politic">
-              <el-select v-model="form.politic"
-                         placeholder="请输入政治面貌">
-                <el-option v-for="item in politics"
-                           :key="item.value"
-                           :label="item.label"
-                           :value="item.value">
-                </el-option>
-              </el-select>
+              <el-input v-model="form.politic"
+                        placeholder="请输入政治面貌" />
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
             <el-form-item label="院校专业"
                           prop="graduate">
@@ -487,6 +468,8 @@
                         placeholder="请输入毕业院校及专业" />
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="12">
             <el-form-item label="现任职务"
                           prop="position">
@@ -494,8 +477,6 @@
                         placeholder="请输入现任职务" />
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
             <el-form-item label="学位"
                           prop="degree">
@@ -508,8 +489,12 @@
                            :value="item.value">
                 </el-option>
               </el-select>
+              <!-- <el-input v-model="form.degree"
+                        placeholder="请输入学位" /> -->
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="12">
             <el-form-item label="学号"
                           prop="jobNumber">
@@ -517,8 +502,6 @@
                         placeholder="请输入学号" />
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
             <el-form-item label="党组织"
                           prop="organId">
@@ -526,19 +509,8 @@
                         placeholder="请输入所在党组织" />
             </el-form-item>
           </el-col>
-          <!-- <el-col :span="12">
-            <el-form-item label="党组织">
-              <el-select v-model="form.organId"
-                         multiple
-                         placeholder="请输入所在党组织">
-                <el-option v-for="item in organOptions"
-                           :key="item.organId"
-                           :label="item.organName"
-                           :value="item.organId"
-                           :disabled="item.status == 1"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col> -->
+        </el-row>
+        <el-row>
           <el-col :span="12">
             <el-form-item label="身份证号"
                           prop="idCard">
@@ -546,8 +518,6 @@
                         placeholder="请输入身份证号" />
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
             <el-form-item label="联系电话"
                           prop="telephone">
@@ -695,6 +665,57 @@
                     placeholder="请输入联系电话" />
         </el-form-item> -->
       </el-form>
+      <div>
+        <el-steps :active="1"
+                  finish-status="success"
+                  simple>
+          <el-step title="01 递交入党申请书"></el-step>
+          <el-step title="02 党组织派人谈话"></el-step>
+        </el-steps>
+
+        <el-steps simple
+                  style="margin-top: 20px">
+          <el-step title="03 推荐和确定入党积极分子"></el-step>
+          <el-step title="04 上级党委备案"></el-step>
+          <el-step title="05 指定培养联系人"></el-step>
+          <el-step title="06 培养教育考察"></el-step>
+        </el-steps>
+
+        <el-steps simple
+                  style="margin-top: 20px">
+          <el-step title="07 确定发展对象"></el-step>
+          <el-step title="08 报上级党委备案"></el-step>
+          <el-step title="09 确定入党介绍人"></el-step>
+          <el-step title="10 进行政治审查"></el-step>
+          <el-step title="11 开展集中培训"></el-step>
+        </el-steps>
+
+        <el-steps simple
+                  style="margin-top: 20px">
+          <el-step title="12 开展集中培训"></el-step>
+          <el-step title="13 支部委员会审查"></el-step>
+          <el-step title="14 上级党委预审"></el-step>
+          <el-step title="15 填写入党志愿书"></el-step>
+          <el-step title="16 支部大会讨论"></el-step>
+        </el-steps>
+
+        <el-steps simple
+                  style="margin-top: 20px">
+          <el-step title="17 上级党委派人谈话"></el-step>
+          <el-step title="18 上级党委审批"></el-step>
+          <el-step title="19 上一级党委组织部门备案"></el-step>
+          <el-step title="20 编入党支部和党小组"></el-step>
+        </el-steps>
+
+        <el-steps simple
+                  style="margin-top: 20px">
+          <el-step title="21 继续培养考察"></el-step>
+          <el-step title="22 提出转正申请"></el-step>
+          <el-step title="23 支部大会讨论"></el-step>
+          <el-step title="24 上级党委审批"></el-step>
+          <el-step title="25 材料归档"></el-step>
+        </el-steps>
+      </div>
       <div slot="footer"
            class="dialog-footer">
         <el-button type="primary"
@@ -707,7 +728,6 @@
 
 <script>
 import { listEmplsoyee, getEmplsoyee, delEmplsoyee, addEmplsoyee, updateEmplsoyee, exportEmplsoyee } from "@/api/system/emplsoyee";
-import { listAllOrgans } from "@/api/system/organs";
 
 export default {
   name: "Emplsoyee",
@@ -715,11 +735,7 @@ export default {
   },
   data () {
     return {
-      // 学位
       options: [{ label: '学士', value: 1 }, { label: '硕士', value: 2 }, { label: '博士', value: 3 }],
-      // 学位
-      genders: [{ label: '男', value: 0 }, { label: '女', value: 1 }],
-      politics: [{ label: '群众', value: '群众' }, { label: '团员', value: '团员' }, { label: '党员', value: '党员' }],
       // 遮罩层
       loading: true,
       // 导出遮罩层
@@ -736,8 +752,6 @@ export default {
       total: 0,
       // 人员信息表格数据
       emplsoyeeList: [],
-      // 所属党组织
-      organOptions: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -780,7 +794,6 @@ export default {
   },
   created () {
     this.getList();
-    // this.getOrganList();
   },
   methods: {
     /** 查询人员信息列表 */
@@ -790,14 +803,6 @@ export default {
         this.emplsoyeeList = response.rows;
         this.total = response.total;
         this.loading = false;
-      });
-    },
-    getOrganList () {
-      listAllOrgans().then(response => {
-        debugger;
-        if (response.code == 200) {
-          this.organOptions = response.data;
-        }
       });
     },
     // 取消按钮

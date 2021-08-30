@@ -9,7 +9,7 @@
         <el-input v-model="loginForm.username"
                   type="text"
                   auto-complete="off"
-                  placeholder="账号">
+                  placeholder="用户名">
           <svg-icon slot="prefix"
                     icon-class="user"
                     class="el-input__icon input-icon" />
