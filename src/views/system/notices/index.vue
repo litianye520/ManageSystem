@@ -87,9 +87,15 @@
       <el-table-column label="内容"
                        align="center"
                        prop="content" />
-      <el-table-column label="党组织Id"
+      <!-- <el-table-column label="党组织名称"
                        align="center"
-                       prop="organId" />
+                       prop="organId" /> -->
+      <el-table-column label="党组织名称"
+                       align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.organs.organName}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作"
                        align="center"
                        class-name="small-padding fixed-width">

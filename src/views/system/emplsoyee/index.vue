@@ -369,10 +369,17 @@
       <el-table-column label="学号"
                        align="center"
                        prop="jobNumber" />
-      <el-table-column label="所在党组织"
+      <!-- <el-table-column label="所在党组织"
                        align="center"
                        width="150px"
-                       prop="organId" />
+                       prop="organId" /> -->
+      <el-table-column label="党组织名称"
+                       align="center"
+                       width="110">
+        <template slot-scope="scope">
+          <span>{{scope.row.organs.organName}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="身份证号"
                        align="center"
                        prop="idCard" />

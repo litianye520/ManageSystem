@@ -1,27 +1,5 @@
-<style scoped>
-.app-container {
-  padding: 0;
-}
-.el-date-editor {
-  width: 100%;
-}
-.el-form-item__content {
-  display: flex;
-}
-</style>
-
 <template>
   <div class="app-container">
-    <!-- tab页 -->
-    <el-tabs v-model="activeName"
-             type="card"
-             @tab-click="handleClick">
-      <el-tab-pane v-for="(item, index) in tabList"
-                   :key="index"
-                   :label="item.label"
-                   :name="item.name"></el-tab-pane>
-    </el-tabs>
-
     <el-form :model="queryParams"
              ref="queryForm"
              :inline="true"
@@ -298,10 +276,13 @@
       <el-table-column label="姓名"
                        align="center"
                        prop="userUame" />
-      <el-table-column label="人员类型"
+      <el-table-column label="工号/学号"
+                       align="center"
+                       prop="jobNumber" />
+      <el-table-column label="政治面貌"
                        align="center"
                        prop="politic" />
-      <el-table-column label="关键步骤"
+      <el-table-column label="当前流程"
                        align="center"
                        prop="processName" />
       <el-table-column prop="gender"
@@ -309,13 +290,7 @@
                        align="center"
                        width="60">
         <template slot-scope="scope">
-          <span>{{
-            scope.row.gender === 0
-              ? "男"
-              : scope.row.gender === 1
-              ? "女"
-              : "性别未知"
-          }}</span>
+          <span>{{scope.row.gender === 0 ?'男':scope.row.gender === 1 ?'女':'性别未知'}}</span>
         </template>
       </el-table-column>
       <el-table-column label="身份证号"
@@ -412,35 +387,25 @@
       <el-table-column label="联系电话"
                        align="center"
                        prop="telephone" /> -->
-      <el-table-column label="操作"
+      <!-- <el-table-column label="操作"
                        align="center"
                        class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button v-if="['群众', '团员'].includes(scope.row.politic)"
-                     size="mini"
-                     type="text"
-                     icon="el-icon-circle-plus-outline"
-                     @click="handleUpdate(scope.row)"
-                     v-hasPermi="['system:emplsoyee:edit']">新增</el-button>
-          <el-button v-if="!['群众', '团员', '党员'].includes(scope.row.politic)"
-                     size="mini"
+          <el-button size="mini"
                      type="text"
                      icon="el-icon-edit"
                      @click="handleUpdate(scope.row)"
-                     v-hasPermi="['system:emplsoyee:edit']">编辑</el-button>
-          <!-- <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['system:emplsoyee:remove']"
-            >删除</el-button
-          > -->
+                     v-hasPermi="['system:emplsoyee:edit']">修改</el-button>
+          <el-button size="mini"
+                     type="text"
+                     icon="el-icon-delete"
+                     @click="handleDelete(scope.row)"
+                     v-hasPermi="['system:emplsoyee:remove']">删除</el-button>
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
 
-    <pagination v-show="total > 0"
+    <pagination v-show="total>0"
                 :total="total"
                 :page.sync="queryParams.pageNum"
                 :limit.sync="queryParams.pageSize"
@@ -449,7 +414,7 @@
     <!-- 添加或修改人员信息对话框 -->
     <el-dialog :title="title"
                :visible.sync="open"
-               width="600px"
+               width="1200px"
                append-to-body>
       <el-form ref="form"
                :model="form"
@@ -471,6 +436,7 @@
                               size="small"
                               v-model="form.birthday"
                               type="date"
+                              width="200"
                               value-format="yyyy-MM-dd"
                               placeholder="选择出生日期">
               </el-date-picker>
@@ -479,28 +445,26 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="性别"
-                          prop="sex">
-              <el-radio-group v-model="form.sex">
-                <el-radio label="男"></el-radio>
-                <el-radio label="女"></el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
             <el-form-item label="民族"
                           prop="national">
               <el-input v-model="form.national"
                         placeholder="请输入民族" />
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
             <el-form-item label="单位"
                           prop="unit">
               <el-input v-model="form.unit"
                         placeholder="请输入单位" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="政治面貌"
+                          prop="politic">
+              <el-input v-model="form.politic"
+                        placeholder="请输入政治面貌" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -512,11 +476,6 @@
           </el-col>
         </el-row>
         <el-row>
-          <!-- <el-col :span="12">
-            <el-form-item label="政治面貌" prop="politic">
-              <el-input v-model="form.politic" placeholder="请输入政治面貌" />
-            </el-form-item>
-          </el-col> -->
           <el-col :span="12">
             <el-form-item label="现任职务"
                           prop="position">
@@ -525,10 +484,35 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
+            <el-form-item label="学位"
+                          prop="degree">
+              <el-select v-model="form.degree"
+                         placeholder="请输入学位"
+                         clearable>
+                <el-option v-for="item in options"
+                           :key="item.value"
+                           :label="item.label"
+                           :value="item.value">
+                </el-option>
+              </el-select>
+              <!-- <el-input v-model="form.degree"
+                        placeholder="请输入学位" /> -->
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
             <el-form-item label="学号"
                           prop="jobNumber">
               <el-input v-model="form.jobNumber"
                         placeholder="请输入学号" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="党组织"
+                          prop="organId">
+              <el-input v-model="form.organId"
+                        placeholder="请输入所在党组织" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -548,79 +532,145 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="24">
-            <el-form-item label="递交入党申请书日期"
-                          label-width="200"
-                          prop="idCard">
-              <el-date-picker clearable
-                              size="small"
-                              v-model="form.birthday"
-                              type="date"
-                              value-format="yyyy-MM-dd"
-                              placeholder="选择递交入党申请书日期">
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="24">
-            <el-form-item label="入党申请书"
-                          label-width="200"
-                          prop="telephone">
-              <el-upload class="avatar-uploader"
-                         action=""
-                         :show-file-list="false">
-                <i class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
-            </el-form-item>
-          </el-col>
-        </el-row>
+        <!-- <el-form-item label="姓名"
+                      prop="userUame">
+          <el-input v-model="form.userUame"
+                    placeholder="请输入姓名" />
+        </el-form-item>
+        <el-form-item label="性别"
+                      prop="gender">
+          <el-input v-model="form.gender"
+                    placeholder="请输入性别" />
+        </el-form-item>
+        <el-form-item label="出生日期"
+                      prop="birthday">
+          <el-date-picker clearable
+                          size="small"
+                          v-model="form.birthday"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="选择出生日期">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="曾用名"
+                      prop="nameUsed">
+          <el-input v-model="form.nameUsed"
+                    placeholder="请输入曾用名" />
+        </el-form-item>
+        <el-form-item label="民族"
+                      prop="national">
+          <el-input v-model="form.national"
+                    placeholder="请输入民族" />
+        </el-form-item>
+        <el-form-item label="单位"
+                      prop="unit">
+          <el-input v-model="form.unit"
+                    placeholder="请输入单位" />
+        </el-form-item>
+        <el-form-item label="家庭出生"
+                      prop="homeAddress">
+          <el-input v-model="form.homeAddress"
+                    placeholder="请输入家庭出生" />
+        </el-form-item>
+        <el-form-item label="人员类型"
+                      prop="personType">
+          <el-select v-model="form.personType"
+                     placeholder="请选择人员类型">
+            <el-option label="请选择字典生成"
+                       value="" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="政治面貌"
+                      prop="politic">
+          <el-input v-model="form.politic"
+                    placeholder="请输入政治面貌" />
+        </el-form-item>
+        <el-form-item label="毕业院校及专业"
+                      prop="graduate">
+          <el-input v-model="form.graduate"
+                    placeholder="请输入毕业院校及专业" />
+        </el-form-item>
+        <el-form-item label="学历"
+                      prop="education">
+          <el-input v-model="form.education"
+                    placeholder="请输入学历" />
+        </el-form-item>
+        <el-form-item label="现任职务"
+                      prop="position">
+          <el-input v-model="form.position"
+                    placeholder="请输入现任职务" />
+        </el-form-item>
+        <el-form-item label="技术职称"
+                      prop="technology">
+          <el-input v-model="form.technology"
+                    placeholder="请输入技术职称" />
+        </el-form-item>
+        <el-form-item label="学位"
+                      prop="degree">
+          <el-input v-model="form.degree"
+                    placeholder="请输入学位" />
+        </el-form-item>
+        <el-form-item label="籍贯"
+                      prop="nativePlace">
+          <el-input v-model="form.nativePlace"
+                    placeholder="请输入籍贯" />
+        </el-form-item>
+        <el-form-item label="出生地"
+                      prop="birthplace">
+          <el-input v-model="form.birthplace"
+                    placeholder="请输入出生地" />
+        </el-form-item>
+        <el-form-item label="家庭住址"
+                      prop="family">
+          <el-input v-model="form.family"
+                    placeholder="请输入家庭住址" />
+        </el-form-item>
+        <el-form-item label="邮编"
+                      prop="postcode">
+          <el-input v-model="form.postcode"
+                    placeholder="请输入邮编" />
+        </el-form-item>
+        <el-form-item label="入团时间"
+                      prop="joinDate">
+          <el-date-picker clearable
+                          size="small"
+                          v-model="form.joinDate"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="选择入团时间">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="参加工作时间"
+                      prop="workDate">
+          <el-date-picker clearable
+                          size="small"
+                          v-model="form.workDate"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="选择参加工作时间">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="学号"
+                      prop="jobNumber">
+          <el-input v-model="form.jobNumber"
+                    placeholder="请输入学号" />
+        </el-form-item>
+        <el-form-item label="所在党组织"
+                      prop="organId">
+          <el-input v-model="form.organId"
+                    placeholder="请输入所在党组织" />
+        </el-form-item>
+        <el-form-item label="身份证号"
+                      prop="idCard">
+          <el-input v-model="form.idCard"
+                    placeholder="请输入身份证号" />
+        </el-form-item>
+        <el-form-item label="联系电话"
+                      prop="telephone">
+          <el-input v-model="form.telephone"
+                    placeholder="请输入联系电话" />
+        </el-form-item> -->
       </el-form>
-      <!-- <div>
-        <el-steps :active="1" finish-status="success" simple>
-          <el-step title="01 递交入党申请书"></el-step>
-          <el-step title="02 党组织派人谈话"></el-step>
-        </el-steps>
-
-        <el-steps simple style="margin-top: 20px">
-          <el-step title="03 推荐和确定入党积极分子"></el-step>
-          <el-step title="04 上级党委备案"></el-step>
-          <el-step title="05 指定培养联系人"></el-step>
-          <el-step title="06 培养教育考察"></el-step>
-        </el-steps>
-
-        <el-steps simple style="margin-top: 20px">
-          <el-step title="07 确定发展对象"></el-step>
-          <el-step title="08 报上级党委备案"></el-step>
-          <el-step title="09 确定入党介绍人"></el-step>
-          <el-step title="10 进行政治审查"></el-step>
-          <el-step title="11 开展集中培训"></el-step>
-        </el-steps>
-
-        <el-steps simple style="margin-top: 20px">
-          <el-step title="12 开展集中培训"></el-step>
-          <el-step title="13 支部委员会审查"></el-step>
-          <el-step title="14 上级党委预审"></el-step>
-          <el-step title="15 填写入党志愿书"></el-step>
-          <el-step title="16 支部大会讨论"></el-step>
-        </el-steps>
-
-        <el-steps simple style="margin-top: 20px">
-          <el-step title="17 上级党委派人谈话"></el-step>
-          <el-step title="18 上级党委审批"></el-step>
-          <el-step title="19 上一级党委组织部门备案"></el-step>
-          <el-step title="20 编入党支部和党小组"></el-step>
-        </el-steps>
-
-        <el-steps simple style="margin-top: 20px">
-          <el-step title="21 继续培养考察"></el-step>
-          <el-step title="22 提出转正申请"></el-step>
-          <el-step title="23 支部大会讨论"></el-step>
-          <el-step title="24 上级党委审批"></el-step>
-          <el-step title="25 材料归档"></el-step>
-        </el-steps>
-      </div> -->
       <div slot="footer"
            class="dialog-footer">
         <el-button type="primary"
@@ -632,36 +682,17 @@
 </template>
 
 <script>
-import {
-  listEmplsoyee,
-  getEmplsoyee,
-  delEmplsoyee,
-  addEmplsoyee,
-  updateEmplsoyee,
-  exportEmplsoyee,
-} from "@/api/system/emplsoyee";
+import { listEmplsoyee, getEmplsoyee, delEmplsoyee, addEmplsoyee, updateEmplsoyee, exportEmplsoyee } from "@/api/system/emplsoyee";
 
 export default {
   name: "Emplsoyee",
-  components: {},
+  components: {
+  },
   data () {
     return {
-      tabList: [
-        { label: "全部", name: "all" },
-        { label: "入党申请人", name: "入党申请人" },
-        { label: "入党积极分子", name: "入党积极分子" },
-        { label: "发展对象", name: "发展对象" },
-        { label: "预备党员", name: "预备党员" },
-        { label: "正式党员", name: "党员" },
-      ],
-      activeName: "all",
-      options: [
-        { label: "学士", value: 1 },
-        { label: "硕士", value: 2 },
-        { label: "博士", value: 3 },
-      ],
+      options: [{ label: '学士', value: 1 }, { label: '硕士', value: 2 }, { label: '博士', value: 3 }],
       // 遮罩层
-      loading: false,
+      loading: true,
       // 导出遮罩层
       exportLoading: false,
       // 选中数组
@@ -712,22 +743,18 @@ export default {
       // 表单参数
       form: {},
       // 表单校验
-      rules: {},
+      rules: {
+      }
     };
   },
   created () {
     this.getList();
   },
   methods: {
-    handleClick () {
-      this.queryParams.politic =
-        this.activeName === "all" ? null : this.activeName;
-      this.getList();
-    },
     /** 查询人员信息列表 */
     getList () {
       this.loading = true;
-      listEmplsoyee(this.queryParams).then((response) => {
+      listEmplsoyee(this.queryParams).then(response => {
         this.emplsoyeeList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -766,7 +793,7 @@ export default {
         organId: null,
         idCard: null,
         telephone: null,
-        createTime: null,
+        createTime: null
       };
       this.resetForm("form");
     },
@@ -782,9 +809,9 @@ export default {
     },
     // 多选框选中数据
     handleSelectionChange (selection) {
-      this.ids = selection.map((item) => item.eid);
-      this.single = selection.length !== 1;
-      this.multiple = !selection.length;
+      this.ids = selection.map(item => item.eid)
+      this.single = selection.length !== 1
+      this.multiple = !selection.length
     },
     /** 新增按钮操作 */
     handleAdd () {
@@ -795,25 +822,25 @@ export default {
     /** 修改按钮操作 */
     handleUpdate (row) {
       this.reset();
-      const eid = row.eid || this.ids;
-      getEmplsoyee(eid).then((response) => {
+      const eid = row.eid || this.ids
+      getEmplsoyee(eid).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "新增人员信息";
+        this.title = "修改人员信息";
       });
     },
     /** 提交按钮 */
     submitForm () {
-      this.$refs["form"].validate((valid) => {
+      this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.eid != null) {
-            updateEmplsoyee(this.form).then((response) => {
+            updateEmplsoyee(this.form).then(response => {
               this.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addEmplsoyee(this.form).then((response) => {
+            addEmplsoyee(this.form).then(response => {
               this.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -825,42 +852,32 @@ export default {
     /** 删除按钮操作 */
     handleDelete (row) {
       const eids = row.eid || this.ids;
-      this.$confirm(
-        '是否确认删除人员信息编号为"' + eids + '"的数据项?',
-        "警告",
-        {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
-        }
-      )
-        .then(function () {
-          return delEmplsoyee(eids);
-        })
-        .then(() => {
-          this.getList();
-          this.msgSuccess("删除成功");
-        })
-        .catch(() => { });
+      this.$confirm('是否确认删除人员信息编号为"' + eids + '"的数据项?', "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(function () {
+        return delEmplsoyee(eids);
+      }).then(() => {
+        this.getList();
+        this.msgSuccess("删除成功");
+      }).catch(() => { });
     },
     /** 导出按钮操作 */
     handleExport () {
       const queryParams = this.queryParams;
-      this.$confirm("是否确认导出所有人员信息数据项?", "警告", {
+      this.$confirm('是否确认导出所有人员信息数据项?', "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(() => {
-          this.exportLoading = true;
-          return exportEmplsoyee(queryParams);
-        })
-        .then((response) => {
-          this.download(response.msg);
-          this.exportLoading = false;
-        })
-        .catch(() => { });
-    },
-  },
+        type: "warning"
+      }).then(() => {
+        this.exportLoading = true;
+        return exportEmplsoyee(queryParams);
+      }).then(response => {
+        this.download(response.msg);
+        this.exportLoading = false;
+      }).catch(() => { });
+    }
+  }
 };
 </script>

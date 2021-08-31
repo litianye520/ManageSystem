@@ -116,9 +116,15 @@
       <el-table-column label="党组织编号"
                        align="center"
                        prop="organNumber" />
-      <el-table-column label="关联部门Id"
+      <!-- <el-table-column label="关联部门Id"
                        align="center"
-                       prop="deptId" />
+                       prop="deptId" /> -->
+      <el-table-column label="部门名称"
+                       align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.depts.deptName}}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="organEnable"
                        label="党组织是否有效"
                        align="center">
@@ -180,10 +186,10 @@
           <el-input v-model="form.deptId"
                     placeholder="请输入关联部门Id" />
         </el-form-item> -->
-        <el-form-item label="关联部门Id">
+        <el-form-item label="关联部门">
           <el-select v-model="form.roleIds"
                      multiple
-                     placeholder="请选择关联部门Id">
+                     placeholder="请选择关联部门">
             <el-option v-for="item in deptOptions"
                        :key="item.deptId"
                        :label="item.deptName"
