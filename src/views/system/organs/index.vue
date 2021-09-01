@@ -187,8 +187,7 @@
                     placeholder="请输入关联部门Id" />
         </el-form-item> -->
         <el-form-item label="关联部门">
-          <el-select v-model="form.roleIds"
-                     multiple
+          <el-select v-model="form.deptId"
                      placeholder="请选择关联部门">
             <el-option v-for="item in deptOptions"
                        :key="item.deptId"
@@ -197,13 +196,24 @@
                        :disabled="item.status == 1"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="是否有效"
+        <!-- <el-form-item label="是否有效"
                       prop="organEnable">
           <el-radio-group v-model="form.organEnable">
             <el-radio v-for="dict in statusOptions"
                       :key="dict.dictValue"
                       :label="dict.dictValue">{{dict.dictLabel}}</el-radio>
           </el-radio-group>
+        </el-form-item> -->
+        <el-form-item label="是否有效"
+                      prop="organEnable">
+          <el-select v-model="form.organEnable"
+                     placeholder="请选择是否有效">
+            <el-option v-for="item in statusEnables"
+                       :key="item.value"
+                       :label="item.label"
+                       :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer"
@@ -226,6 +236,8 @@ export default {
   },
   data () {
     return {
+      // 是否有效 0 是   1 否
+      statusEnables: [{ label: '是', value: 0 }, { label: '否', value: 1 }],
       // 遮罩层
       loading: true,
       // 导出遮罩层

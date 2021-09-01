@@ -138,10 +138,20 @@
           <editor v-model="form.content"
                   :min-height="192" />
         </el-form-item>
-        <el-form-item label="党组织Id"
+        <!-- <el-form-item label="党组织Id"
                       prop="organId">
           <el-input v-model="form.organId"
                     placeholder="请输入党组织Id" />
+        </el-form-item> -->
+        <el-form-item label="党组织">
+          <el-select v-model="form.organId"
+                     placeholder="请选择所在党组织">
+            <el-option v-for="item in organOptions"
+                       :key="item.organId"
+                       :label="item.organName"
+                       :value="item.organId"
+                       :disabled="item.status == 1"></el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer"
@@ -156,6 +166,7 @@
 
 <script>
 import { listNotices, getNotices, delNotices, addNotices, updateNotices, exportNotices } from "@/api/system/notices";
+import { listAllOrgans, listOrgans } from "@/api/system/organs";
 import Editor from '@/components/Editor';
 
 export default {
@@ -181,6 +192,8 @@ export default {
       total: 0,
       // 党组织通知发布表格数据
       noticesList: [],
+      // 党组织
+      organOptions: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -202,6 +215,7 @@ export default {
   },
   created () {
     this.getList();
+    this.getOrganList();
   },
   methods: {
     /** 查询党组织通知发布列表 */
@@ -211,6 +225,13 @@ export default {
         this.noticesList = response.rows;
         this.total = response.total;
         this.loading = false;
+      });
+    },
+    getOrganList () {
+      listOrgans().then(response => {
+        if (response.code == 200) {
+          this.organOptions = response.rows;
+        }
       });
     },
     // 取消按钮

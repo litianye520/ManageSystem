@@ -526,18 +526,17 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="12">
+          <!-- <el-col :span="12">
             <el-form-item label="党组织"
                           prop="organId">
               <el-input v-model="form.organId"
                         placeholder="请输入所在党组织" />
             </el-form-item>
-          </el-col>
-          <!-- <el-col :span="12">
+          </el-col> -->
+          <el-col :span="12">
             <el-form-item label="党组织">
               <el-select v-model="form.organId"
-                         multiple
-                         placeholder="请输入所在党组织">
+                         placeholder="请选择所在党组织">
                 <el-option v-for="item in organOptions"
                            :key="item.organId"
                            :label="item.organName"
@@ -545,7 +544,7 @@
                            :disabled="item.status == 1"></el-option>
               </el-select>
             </el-form-item>
-          </el-col> -->
+          </el-col>
           <el-col :span="12">
             <el-form-item label="身份证号"
                           prop="idCard">
@@ -714,7 +713,7 @@
 
 <script>
 import { listEmplsoyee, getEmplsoyee, delEmplsoyee, addEmplsoyee, updateEmplsoyee, exportEmplsoyee } from "@/api/system/emplsoyee";
-import { listAllOrgans } from "@/api/system/organs";
+import { listAllOrgans, listOrgans } from "@/api/system/organs";
 
 export default {
   name: "Emplsoyee",
@@ -724,8 +723,9 @@ export default {
     return {
       // 学位
       options: [{ label: '学士', value: 1 }, { label: '硕士', value: 2 }, { label: '博士', value: 3 }],
-      // 学位
+      // 性别
       genders: [{ label: '男', value: 0 }, { label: '女', value: 1 }],
+      // 政治面貌
       politics: [{ label: '群众', value: '群众' }, { label: '团员', value: '团员' }, { label: '党员', value: '党员' }],
       // 遮罩层
       loading: true,
@@ -787,7 +787,7 @@ export default {
   },
   created () {
     this.getList();
-    // this.getOrganList();
+    this.getOrganList();
   },
   methods: {
     /** 查询人员信息列表 */
@@ -800,10 +800,9 @@ export default {
       });
     },
     getOrganList () {
-      listAllOrgans().then(response => {
-        debugger;
+      listOrgans().then(response => {
         if (response.code == 200) {
-          this.organOptions = response.data;
+          this.organOptions = response.rows;
         }
       });
     },
