@@ -13,6 +13,28 @@
                   size="small"
                   @keyup.enter.native="handleQuery" />
       </el-form-item>
+      <el-form-item label="学号"
+                    prop="jobNumber">
+        <el-input v-model="queryParams.jobNumber"
+                  placeholder="请输入学号"
+                  clearable
+                  size="small"
+                  @keyup.enter.native="handleQuery" />
+      </el-form-item>
+      <el-form-item label="政治面貌"
+                    prop="politic">
+        <el-select v-model="queryParams.politic"
+                   placeholder="请选择政治面貌"
+                   clearable
+                   size="small"
+                   style="width: 240px">
+          <el-option v-for="item in politics"
+                     :key="item.value"
+                     :label="item.label"
+                     :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
       <!-- <el-form-item label="性别" prop="gender">
         <el-input
           v-model="queryParams.gender"
@@ -22,7 +44,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item> -->
-      <el-form-item label="出生日期"
+      <!-- <el-form-item label="出生日期"
                     prop="birthday">
         <el-date-picker clearable
                         size="small"
@@ -31,7 +53,7 @@
                         value-format="yyyy-MM-dd"
                         placeholder="选择出生日期">
         </el-date-picker>
-      </el-form-item>
+      </el-form-item> -->
       <!-- <el-form-item label="曾用名" prop="nameUsed">
         <el-input
           v-model="queryParams.nameUsed"
@@ -179,14 +201,6 @@
           placeholder="选择参加工作时间">
         </el-date-picker>
       </el-form-item> -->
-      <!-- <el-form-item label="学号"
-                    prop="jobNumber">
-        <el-input v-model="queryParams.jobNumber"
-                  placeholder="请输入学号"
-                  clearable
-                  size="small"
-                  @keyup.enter.native="handleQuery" />
-      </el-form-item> -->
       <!-- <el-form-item label="所在党组织" prop="organId">
         <el-input
           v-model="queryParams.organId"
@@ -196,14 +210,14 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item> -->
-      <el-form-item label="身份证号"
+      <!-- <el-form-item label="身份证号"
                     prop="idCard">
         <el-input v-model="queryParams.idCard"
                   placeholder="请输入身份证号"
                   clearable
                   size="small"
                   @keyup.enter.native="handleQuery" />
-      </el-form-item>
+      </el-form-item> -->
       <!-- <el-form-item label="联系电话"
                     prop="telephone">
         <el-input v-model="queryParams.telephone"
@@ -222,47 +236,6 @@
                    @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-
-    <!-- <el-row :gutter="10"
-            class="mb8">
-      <el-col :span="1.5">
-        <el-button type="primary"
-                   plain
-                   icon="el-icon-plus"
-                   size="mini"
-                   @click="handleAdd"
-                   v-hasPermi="['system:emplsoyee:add']">新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="success"
-                   plain
-                   icon="el-icon-edit"
-                   size="mini"
-                   :disabled="single"
-                   @click="handleUpdate"
-                   v-hasPermi="['system:emplsoyee:edit']">修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="danger"
-                   plain
-                   icon="el-icon-delete"
-                   size="mini"
-                   :disabled="multiple"
-                   @click="handleDelete"
-                   v-hasPermi="['system:emplsoyee:remove']">删除</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="warning"
-                   plain
-                   icon="el-icon-download"
-                   size="mini"
-                   :loading="exportLoading"
-                   @click="handleExport"
-                   v-hasPermi="['system:emplsoyee:export']">导出</el-button>
-      </el-col>
-      <right-toolbar :showSearch.sync="showSearch"
-                     @queryTable="getList"></right-toolbar>
-    </el-row> -->
 
     <el-table v-loading="loading"
               :data="emplsoyeeList"
@@ -303,6 +276,10 @@
           <span>{{scope.row.organs.organName}}</span>
         </template>
       </el-table-column>
+      <el-table-column label="所在院校"
+                       align="center"
+                       width="150px"
+                       prop="graduate" />
       <!-- <el-table-column label="出生日期"
                        align="center"
                        prop="birthday"
@@ -691,6 +668,11 @@ export default {
   data () {
     return {
       options: [{ label: '学士', value: 1 }, { label: '硕士', value: 2 }, { label: '博士', value: 3 }],
+      // 政治面貌
+      politics: [{ label: '群众', value: '群众' }, { label: '团员', value: '团员' },
+      { label: '入党申请人', value: '入党申请人' }, { label: '入党积极分子', value: '入党积极分子' },
+      { label: '发展对象', value: '发展对象' }, { label: '预备党员', value: '预备党员' },
+      { label: '党员', value: '党员' }],
       // 遮罩层
       loading: true,
       // 导出遮罩层

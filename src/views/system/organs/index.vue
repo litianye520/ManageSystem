@@ -196,15 +196,15 @@
                        :disabled="item.status == 1"></el-option>
           </el-select>
         </el-form-item>
-        <!-- <el-form-item label="是否有效"
+        <el-form-item label="是否有效"
                       prop="organEnable">
           <el-radio-group v-model="form.organEnable">
             <el-radio v-for="dict in statusOptions"
                       :key="dict.dictValue"
                       :label="dict.dictValue">{{dict.dictLabel}}</el-radio>
           </el-radio-group>
-        </el-form-item> -->
-        <el-form-item label="是否有效"
+        </el-form-item>
+        <!-- <el-form-item label="是否有效"
                       prop="organEnable">
           <el-select v-model="form.organEnable"
                      placeholder="请选择是否有效">
@@ -214,7 +214,7 @@
                        :value="item.value">
             </el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div slot="footer"
            class="dialog-footer">
