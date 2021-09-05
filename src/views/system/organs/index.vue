@@ -201,6 +201,7 @@
           <el-radio-group v-model="form.organEnable">
             <el-radio v-for="dict in statusOptions"
                       :key="dict.dictValue"
+                      :value="dict.dictValue"
                       :label="dict.dictValue">{{dict.dictLabel}}</el-radio>
           </el-radio-group>
         </el-form-item>
@@ -348,6 +349,8 @@ export default {
       const organId = row.organId || this.ids
       getOrgans(organId).then(response => {
         this.form = response.data;
+        this.form.deptId = Number(this.form.deptId);
+        this.form.organEnable = String(this.form.organEnable);
         this.open = true;
         this.title = "修改党组织";
       });

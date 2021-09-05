@@ -779,7 +779,11 @@ export default {
         telephone: null,
       },
       // 表单参数
-      form: {},
+      form: {
+        gender:0,
+        degree:1,
+        politic:'群众'
+      },
       // 表单校验
       rules: {
       }
@@ -816,19 +820,19 @@ export default {
       this.form = {
         eid: null,
         userUame: null,
-        gender: null,
+        gender: 0,
         birthday: null,
         nameUsed: null,
         national: null,
         unit: null,
         homeAddress: null,
         personType: null,
-        politic: null,
+        politic: '群众',
         graduate: null,
         education: null,
         position: null,
         technology: null,
-        degree: null,
+        degree: 1,
         nativePlace: null,
         birthplace: null,
         family: null,

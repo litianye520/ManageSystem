@@ -549,7 +549,7 @@
               <el-date-picker
                 clearable
                 size="small"
-                v-model="form.birthday"
+                v-model="form.joinDate"
                 type="date"
                 value-format="yyyy-MM-dd"
                 placeholder="选择递交入党申请书日期"
@@ -572,7 +572,6 @@
           </el-col>
         </el-row>
       </el-form>
-
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
@@ -671,7 +670,7 @@ export default {
   methods: {
     handleClick() {
       this.queryParams.politic =
-        this.activeName === "all" ? null : this.activeName;
+      this.activeName === "all" ? null : this.activeName;
       this.getList();
     },
     /** 查询人员信息列表 */
@@ -757,7 +756,13 @@ export default {
       this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.form.eid != null) {
-            updateEmplsoyee(this.form).then((response) => {
+            let options = {
+              eid:this.form.eid,
+              currentProcess:1,
+              politic:'入党申请人',
+              joinDate:this.form.joinDate
+            }
+            updateEmplsoyee(options).then((response) => {
               this.msgSuccess("修改成功");
               this.open = false;
               this.getList();

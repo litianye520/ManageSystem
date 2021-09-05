@@ -1,48 +1,53 @@
 <template>
   <div class="detail-container">
     <div class="container-t">
-      <div class="title-box"><span>张三</span>基本信息</div>
+      <div class="title-box">
+        <span>{{ detailsData.userUame || "--" }}</span
+        >基本信息
+      </div>
       <div class="table-box">
         <div class="key">性别</div>
-        <div class="value">男</div>
+        <div class="value">
+          {{ detailsData.gender === 0 ? "男" : "女" || "--" }}
+        </div>
         <div class="key">民族</div>
-        <div class="value">汉族</div>
+        <div class="value">{{ detailsData.national || "--" }}</div>
         <div class="key">身份证号码</div>
-        <div class="value">4213022229900087777</div>
+        <div class="value">{{ detailsData.idCard || "--" }}</div>
 
         <div class="key">出生日期</div>
-        <div class="value">19890901</div>
+        <div class="value">{{ detailsData.birthday || "--" }}</div>
         <div class="key">工作岗位</div>
-        <div class="value">武汉</div>
+        <div class="value">{{ detailsData.position || "--" }}</div>
         <div class="key">学历</div>
-        <div class="value">本科</div>
+        <div class="value">{{ detailsData.unit || "--" }}</div>
 
-        <div class="key">其他党团</div>
-        <div class="value">共青团</div>
+        <!-- <div class="key">其他党团</div>
+        <div class="value">{{ detailsData.userUame }}</div>
         <div class="key">背景情况</div>
-        <div class="value">正常</div>
+        <div class="value">{{ detailsData.userUame }}</div> -->
         <div class="key">入党申请日期</div>
-        <div class="value">2021-09-09</div>
+        <div class="value">{{ detailsData.joinDate || "--" }}</div>
 
         <div class="key">列为入党积极分子日期</div>
-        <div class="value">2021-09-09</div>
+        <div class="value">{{ detailsData.aitivTime || "--" }}</div>
         <div class="key">列为发展对象日期</div>
-        <div class="value">2021-09-09</div>
+        <div class="value">{{ detailsData.developTime || "--" }}</div>
         <div class="key">接收预备党员日期</div>
-        <div class="value">2021-09-09</div>
+        <div class="value">{{ detailsData.memberTime || "--" }}</div>
       </div>
     </div>
     <div class="container-b">
       <div class="step-list">
         <span class="title">一、入党申请</span>
-        <el-steps :active="1" finish-status="success" simple>
+        <el-steps :active="stepProgress" finish-status="success" simple>
           <el-step title="01 递交入党申请书"></el-step>
           <el-step title="02 党组织派人谈话"></el-step>
         </el-steps>
       </div>
       <div class="step-list">
         <span class="title">二、入党积极分子确定和培养教育</span>
-        <el-steps simple>
+        <el-steps :active="stepProgress - 2" finish-status="success" simple>
           <el-step title="03 推荐和确定入党积极分子"></el-step>
           <el-step title="04 上级党委备案"></el-step>
           <el-step title="05 指定培养联系人"></el-step>
@@ -51,7 +56,7 @@
       </div>
       <div class="step-list">
         <span class="title">三、发展对象确定和考察</span>
-        <el-steps simple>
+        <el-steps :active="stepProgress - 6" finish-status="success" simple>
           <el-step title="07 确定发展对象"></el-step>
           <el-step title="08 报上级党委备案"></el-step>
           <el-step title="09 确定入党介绍人"></el-step>
@@ -62,7 +67,7 @@
 
       <div class="step-list">
         <span class="title">四、入党前培训</span>
-        <el-steps simple>
+        <el-steps :active="stepProgress - 11" finish-status="success" simple>
           <el-step title="12 支部委员会审查"></el-step>
           <el-step title="13 上级党委预审"></el-step>
           <el-step title="14 填写入党志愿书"></el-step>
@@ -73,7 +78,7 @@
       </div>
       <div class="step-list">
         <span class="title">五、预备党员考察</span>
-        <el-steps simple>
+        <el-steps :active="stepProgress - 17" finish-status="success" simple>
           <el-step title="18 上一级党委组织部门备案"></el-step>
           <el-step title="19 编入党支部和党小组"></el-step>
           <el-step title="20 继续培养考察"></el-step>
@@ -81,7 +86,7 @@
       </div>
       <div class="step-list">
         <span class="title">六、预备党员转正</span>
-        <el-steps simple>
+        <el-steps :active="stepProgress - 20" finish-status="success" simple>
           <el-step title="21 提出转正申请"></el-step>
           <el-step title="22 支部大会讨论"></el-step>
           <el-step title="23 上级党委审批"></el-step>
@@ -97,7 +102,7 @@
         <div class="key">递交入党申请书日期</div>
         <div>
           <el-date-picker
-            v-model="value1"
+            v-model="form.joinDate"
             type="date"
             value-format="yyyy-MM-dd"
             placeholder="选择日期"
@@ -121,9 +126,7 @@
         </div>
         <div class="key">谈话人姓名</div>
         <div>
-          <el-select v-model="value" placeholder="请选择谈话人">
-            <el-option></el-option>
-          </el-select>
+          <el-input v-model="input" placeholder="请输入内容"></el-input>
         </div>
         <div class="key">谈话人职务</div>
         <div>
@@ -193,8 +196,11 @@
           <el-input v-model="input" placeholder="请输入内容"></el-input>
         </div>
       </div>
-      <!-- 步骤六 -->
-      <el-tabs type="border-card" v-if="stepIndex === '6'">
+      <!-- 步骤六 / 步骤二十-->
+      <el-tabs
+        type="border-card"
+        v-if="stepIndex === '6' || stepIndex === '20'"
+      >
         <el-tab-pane label="培养教育">
           <div class="step-box columns3">
             <div class="key">培养教育日期</div>
@@ -226,18 +232,10 @@
               >
               </el-input>
             </div>
-            <div>
-              <el-input
-                type="textarea"
-                :rows="2"
-                placeholder="请输入内容"
-                v-model="textarea"
-              >
-              </el-input>
-            </div>
+            <div></div>
             <div class="key">附件</div>
             <div>
-              <el-button>上传附件</el-button>
+              <el-button type="primary">上传附件</el-button>
             </div>
             <div>
               类型：pdf,doc,docx,xls,xlsx,wps,jpg,png,gif,bmp,rar,zip;大小不超过2M
@@ -275,18 +273,10 @@
               >
               </el-input>
             </div>
-            <div>
-              <el-input
-                type="textarea"
-                :rows="2"
-                placeholder="请输入内容"
-                v-model="textarea"
-              >
-              </el-input>
-            </div>
+            <div></div>
             <div class="key">附件</div>
             <div>
-              <el-button>上传附件</el-button>
+              <el-button type="primary">上传附件</el-button>
             </div>
             <div>
               类型：pdf,doc,docx,xls,xlsx,wps,jpg,png,gif,bmp,rar,zip;大小不超过2M
@@ -383,7 +373,7 @@
         </div>
         <div class="key">附件</div>
         <div>
-          <el-button>上传附件</el-button
+          <el-button type="primary">上传附件</el-button
           >类型：pdf,doc,docx,xls,xlsx,wps,jpg,png,gif,bmp,rar,zip;大小不超过2M
         </div>
       </div>
@@ -432,7 +422,7 @@
         <div></div>
         <div class="key">附件</div>
         <div>
-          <el-button>上传附件</el-button>
+          <el-button type="primary">上传附件</el-button>
         </div>
         <div>
           类型：pdf,doc,docx,xls,xlsx,wps,jpg,png,gif,bmp,rar,zip;大小不超过2M
@@ -457,43 +447,291 @@
         </div>
       </div>
       <!-- 步骤十三 -->
-      <div v-if="stepIndex === '13'">步骤十三</div>
+      <div class="step-box columns2" v-if="stepIndex === '13'">
+        <div class="key">上级党委预审日期</div>
+        <div>
+          <el-date-picker
+            v-model="value1"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="选择日期"
+          >
+          </el-date-picker>
+        </div>
+        <div class="key">上级党委预审意见</div>
+        <div>
+          <el-radio v-model="radio" label="1">同意</el-radio>
+          <el-radio v-model="radio" label="2">不同意</el-radio>
+        </div>
+        <div class="key">听取执法部门意见情况</div>
+        <div>
+          <el-radio v-model="radio" label="1">是</el-radio>
+          <el-radio v-model="radio" label="2">否</el-radio>
+        </div>
+      </div>
       <!-- 步骤十四 -->
-      <div v-if="stepIndex === '14'">步骤十四</div>
+      <div class="step-box columns2" v-if="stepIndex === '14'">
+        <div class="key">入党志愿书编号</div>
+        <div>
+          <el-input v-model="input" placeholder="请输入"></el-input>
+        </div>
+      </div>
       <!-- 步骤十五 -->
-      <div v-if="stepIndex === '15'">步骤十五</div>
+      <div class="step-box columns4" v-if="stepIndex === '15'">
+        <div class="key">支部大会召开日期</div>
+        <div>
+          <el-date-picker
+            v-model="value1"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="选择日期"
+          >
+          </el-date-picker>
+        </div>
+        <div></div>
+        <div></div>
+        <div class="key">应到人数</div>
+        <div>
+          <el-input v-model="input" placeholder="请输入内容"></el-input>
+        </div>
+        <div class="key">应到会有表决权人数</div>
+        <div>
+          <el-input v-model="input" placeholder="请输入内容"></el-input>
+        </div>
+        <div class="key">实到人数</div>
+        <div>
+          <el-input v-model="input" placeholder="请输入内容"></el-input>
+        </div>
+        <div class="key">实到会有表决权人数</div>
+        <div>
+          <el-input v-model="input" placeholder="请输入内容"></el-input>
+        </div>
+        <div class="key">支部大会意见</div>
+        <div>
+          <el-radio v-model="radio" label="1">同意</el-radio>
+          <el-radio v-model="radio" label="2">不同意</el-radio>
+        </div>
+        <div></div>
+        <div></div>
+        <div class="key">支部大会会议记录</div>
+        <div>
+          <el-button type="primary">上传附件</el-button>
+        </div>
+        <div>
+          类型：pdf,doc,docx,xls,xlsx,wps,jpg,png,gif,bmp,rar,zip;大小不超过2M
+        </div>
+        <div></div>
+      </div>
       <!-- 步骤十六 -->
-      <div v-if="stepIndex === '16'">步骤十六</div>
+      <div class="step-box columns2" v-if="stepIndex === '16'">
+        <div class="key">谈话日期</div>
+        <div>
+          <el-date-picker
+            v-model="value1"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="选择日期"
+          >
+          </el-date-picker>
+        </div>
+        <div class="key">谈话人</div>
+        <div>
+          <el-select v-model="value" placeholder="请选择谈话人">
+            <el-option></el-option>
+          </el-select>
+        </div>
+        <div class="key">谈话人职务</div>
+        <div>
+          <el-input v-model="input" placeholder="请输入内容"></el-input>
+        </div>
+      </div>
       <!-- 步骤十七 -->
-      <div v-if="stepIndex === '17'">步骤十七</div>
+      <div class="step-box columns2" v-if="stepIndex === '17'">
+        <div class="key">党委会召开日期</div>
+        <div>
+          <el-date-picker
+            v-model="value1"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="选择日期"
+          >
+          </el-date-picker>
+        </div>
+        <div class="key">党委会意见</div>
+        <div>
+          <el-radio v-model="radio" label="1">同意</el-radio>
+          <el-radio v-model="radio" label="2">不同意</el-radio>
+        </div>
+        <div class="key">会议记录</div>
+        <div>
+          <el-button type="primary">上传文件</el-button>
+        </div>
+        <div class="key"></div>
+        <div>
+          类型：pdf,doc,docx,xls,xlsx,wps,jpg,png,gif,bmp,rar,zip;大小不超过2M
+        </div>
+      </div>
       <!-- 步骤十八 -->
-      <div v-if="stepIndex === '18'">步骤十八</div>
+      <div class="step-box columns2" v-if="stepIndex === '18'">
+        <div class="key">党委组织部备案日期</div>
+        <div>
+          <el-date-picker
+            v-model="value1"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="选择日期"
+          >
+          </el-date-picker>
+        </div>
+        <div class="key">党委组织部备案意见</div>
+        <div>
+          <el-radio v-model="radio" label="1">同意</el-radio>
+          <el-radio v-model="radio" label="2">不同意</el-radio>
+        </div>
+      </div>
       <!-- 步骤十九 -->
-      <div v-if="stepIndex === '19'">步骤十九</div>
-      <!-- 步骤二十 -->
-      <div v-if="stepIndex === '20'">步骤二十</div>
+      <div class="step-box columns2" v-if="stepIndex === '19'">
+        <div class="key">编入党支部</div>
+        <div>中共金沙县安底镇民主村甘桩党支部</div>
+        <div class="key">编入党小组</div>
+        <div>
+          <el-input v-model="input" placeholder="请输入内容"></el-input>
+        </div>
+      </div>
       <!-- 步骤二十一 -->
-      <div v-if="stepIndex === '21'">步骤二十一</div>
+      <div class="step-box columns2" v-if="stepIndex === '21'">
+        <div class="key">提出转正申请日期</div>
+        <div>
+          <el-date-picker
+            v-model="value1"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="选择日期"
+          >
+          </el-date-picker>
+        </div>
+        <div class="key">转正申请书</div>
+        <div>
+          <el-button type="primary">上传附件</el-button>
+        </div>
+        <div class="key"></div>
+        <div>
+          类型：pdf,doc,docx,xls,xlsx,wps,jpg,png,gif,bmp,rar,zip;大小不超过2M
+        </div>
+      </div>
       <!-- 步骤二十二 -->
-      <div v-if="stepIndex === '22'">步骤二十二</div>
+      <div class="step-box columns4" v-if="stepIndex === '22'">
+        <div class="key">是否推迟讨论转正</div>
+        <div>
+          <el-radio v-model="radio" label="1">是</el-radio>
+          <el-radio v-model="radio" label="2">否</el-radio>
+        </div>
+        <div></div>
+        <div></div>
+        <div class="key">支部大会召开日期</div>
+        <div>
+          <el-date-picker
+            v-model="value1"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="选择日期"
+          >
+          </el-date-picker>
+        </div>
+        <div></div>
+        <div></div>
+        <div class="key">应到人数</div>
+        <div>
+          <el-input v-model="input" placeholder="请输入内容"></el-input>
+        </div>
+        <div class="key">应到会有表决权人数</div>
+        <div>
+          <el-input v-model="input" placeholder="请输入内容"></el-input>
+        </div>
+        <div class="key">实到人数</div>
+        <div>
+          <el-input v-model="input" placeholder="请输入内容"></el-input>
+        </div>
+        <div class="key">实到会有表决权人数</div>
+        <div>
+          <el-input v-model="input" placeholder="请输入内容"></el-input>
+        </div>
+        <div class="key">支部大会意见</div>
+        <div>
+          <el-radio v-model="radio" label="1">同意</el-radio>
+          <el-radio v-model="radio" label="2">不同意</el-radio>
+        </div>
+        <div></div>
+        <div></div>
+        <div class="key">支部大会会议记录</div>
+        <div>
+          <el-button type="primary">上传附件</el-button>
+        </div>
+        <div>
+          类型：pdf,doc,docx,xls,xlsx,wps,jpg,png,gif,bmp,rar,zip;大小不超过2M
+        </div>
+        <div></div>
+      </div>
       <!-- 步骤二十三 -->
-      <div v-if="stepIndex === '23'">步骤二十三</div>
+      <div class="step-box columns2" v-if="stepIndex === '23'">
+        <div class="key">党委会召开日期</div>
+        <div>
+          <el-date-picker
+            v-model="value1"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="选择日期"
+          >
+          </el-date-picker>
+        </div>
+        <div class="key">党委会意见</div>
+        <div>
+          <el-radio v-model="radio" label="1">同意</el-radio>
+          <el-radio v-model="radio" label="2">不同意</el-radio>
+        </div>
+      </div>
       <!-- 步骤二十四 -->
-      <div v-if="stepIndex === '24'">步骤二十四</div>
+      <div class="step-box columns2" v-if="stepIndex === '24'">
+        <div class="key">归档日期</div>
+        <div>
+          <el-date-picker
+            v-model="value1"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="选择日期"
+          >
+          </el-date-picker>
+        </div>
+        <div class="key">档案保存主体</div>
+        <div>
+          <el-radio v-model="radio" label="1">基层党委</el-radio>
+          <el-radio v-model="radio" label="2">县级党委组织部门</el-radio>
+        </div>
+        <div class="key">入党志愿书</div>
+        <div>
+          <el-button type="primary">上传附件</el-button>
+        </div>
+        <div class="key"></div>
+        <div>
+          类型：pdf,doc,docx,xls,xlsx,wps,jpg,png,gif,bmp,rar,zip;大小不超过2M
+        </div>
+      </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="handleSubmit">确 定</el-button>
+        <el-button @click="handleSubmit">保 存</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { updateEmplsoyee } from "@/api/system/emplsoyee";
+import { getEmplsoyee, updateEmplsoyee } from "@/api/system/emplsoyee";
 export default {
   data() {
     return {
+      detailsData: {},
       stepIndex: 0,
+      stepProgress: 0,
       stepTxt: "",
       dialogVisible: false,
       value1: "",
@@ -502,28 +740,82 @@ export default {
       radio: "",
       checked: "",
       textarea: "",
+      form: {},
     };
   },
-  mounted() {
-    let allStep = document.querySelectorAll(".el-step");
-    allStep.forEach((item) => {
-      item.addEventListener("click", (e) => {
-        let step_txt = e.target.innerText;
-        this.stepTxt = step_txt;
-        let step_index = e.target.innerText.match(/[1-9][0-9]*/g);
-        this.stepIndex = step_index.join();
-        this.dialogVisible = true;
-      });
-    });
+  mounted() {},
+  created() {
+    this.getDetails();
   },
   methods: {
+    getDetails() {
+      getEmplsoyee(this.$route.query.eid).then((res) => {
+        this.detailsData = res.data;
+        this.stepProgress = res.data.currentProcess;
+      });
+    },
     handleSubmit() {
-      updateEmplsoyee({
-        eid: 6,
-        aitivTime: "2021-09-23",
-        currentProcess: 3,
-      }).then((res) => {
-        console.log(res);
+      let options = {
+        eid: this.$route.query.eid,
+        currentProcess: Number(this.stepIndex),
+      };
+      this.stepIndex === "1" && (options.joinDate = this.form.joinDate);
+      if (this.stepIndex === "3") {
+        let dt = new Date();
+        let y, m, d;
+        y = dt.getFullYear();
+        m = dt.getMonth() + 1;
+        d = dt.getDay();
+        options.aitivTime = `${y}-${m}-${d}`;
+        options.politic = "入党积极分子";
+      }
+      if (this.stepIndex === "7") {
+        options.politic = "入党申请人";
+      }
+      if (this.stepIndex === "8") {
+        let dt = new Date();
+        let y, m, d;
+        y = dt.getFullYear();
+        m = dt.getMonth() + 1;
+        d = dt.getDay();
+        options.developTime = `${y}-${m}-${d}`;
+        options.politic = "发展对象";
+      }
+      if (this.stepIndex === "18") {
+        let dt = new Date();
+        let y, m, d;
+        y = dt.getFullYear();
+        m = dt.getMonth() + 1;
+        d = dt.getDay();
+        options.memberTime = `${y}-${m}-${d}`;
+        options.politic = "预备党员";
+      }
+      updateEmplsoyee(options).then((res) => {
+        if (res.code === 200) {
+          this.msgSuccess("保存成功");
+          this.dialogVisible = false;
+          this.stepProgress < 24 && this.stepProgress++;
+        } else this.msgError(res.msg);
+      });
+    },
+  },
+  watch: {
+    dialogVisible(val) {
+      !val && (this.form = {});
+    },
+    stepProgress(val) {
+      this.$nextTick(() => {
+        let allStep = document.querySelectorAll(".el-step");
+        allStep.forEach((item) => {
+          item.onclick = null;
+        });
+        allStep[val].onclick = (e) => {
+          let step_txt = e.target.innerText;
+          this.stepTxt = step_txt;
+          let step_index = e.target.innerText.match(/[1-9][0-9]*/g);
+          this.stepIndex = step_index.join();
+          this.dialogVisible = true;
+        };
       });
     },
   },
@@ -594,6 +886,9 @@ export default {
       &.columns3 {
         grid-template-columns: repeat(3, 1fr);
       }
+      &.columns4 {
+        grid-template-columns: repeat(4, 1fr);
+      }
       &.columns6 {
         grid-template-columns: repeat(6, 1fr);
       }
@@ -613,6 +908,18 @@ export default {
           cursor: pointer;
         }
       }
+    }
+  }
+
+  ::v-deep .el-step__title,
+  ::v-deep .el-step__head {
+    &.is-process {
+      color: red;
+      border-color: red;
+    }
+    &.is-success {
+      border-color: #dabb00;
+      color: #dabb00;
     }
   }
 }
