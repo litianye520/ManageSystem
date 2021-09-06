@@ -10,30 +10,27 @@
 <template>
   <div class="app-container">
     <!-- tab页 -->
-    <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-      <el-tab-pane
-        v-for="(item, index) in tabList"
-        :key="index"
-        :label="item.label"
-        :name="item.name"
-      ></el-tab-pane>
+    <el-tabs v-model="activeName"
+             type="card"
+             @tab-click="handleClick">
+      <el-tab-pane v-for="(item, index) in tabList"
+                   :key="index"
+                   :label="item.label"
+                   :name="item.name"></el-tab-pane>
     </el-tabs>
 
-    <el-form
-      :model="queryParams"
-      ref="queryForm"
-      :inline="true"
-      v-show="showSearch"
-      label-width="68px"
-    >
-      <el-form-item label="姓名" prop="userUame">
-        <el-input
-          v-model="queryParams.userUame"
-          placeholder="请输入姓名"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+    <el-form :model="queryParams"
+             ref="queryForm"
+             :inline="true"
+             v-show="showSearch"
+             label-width="68px">
+      <el-form-item label="姓名"
+                    prop="userUame">
+        <el-input v-model="queryParams.userUame"
+                  placeholder="请输入姓名"
+                  clearable
+                  size="small"
+                  @keyup.enter.native="handleQuery" />
       </el-form-item>
       <!-- <el-form-item label="性别" prop="gender">
         <el-input
@@ -44,15 +41,14 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item> -->
-      <el-form-item label="出生日期" prop="birthday">
-        <el-date-picker
-          clearable
-          size="small"
-          v-model="queryParams.birthday"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="选择出生日期"
-        >
+      <el-form-item label="出生日期"
+                    prop="birthday">
+        <el-date-picker clearable
+                        size="small"
+                        v-model="queryParams.birthday"
+                        type="date"
+                        value-format="yyyy-MM-dd"
+                        placeholder="选择出生日期">
         </el-date-picker>
       </el-form-item>
       <!-- <el-form-item label="曾用名" prop="nameUsed">
@@ -219,14 +215,13 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item> -->
-      <el-form-item label="身份证号" prop="idCard">
-        <el-input
-          v-model="queryParams.idCard"
-          placeholder="请输入身份证号"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="身份证号"
+                    prop="idCard">
+        <el-input v-model="queryParams.idCard"
+                  placeholder="请输入身份证号"
+                  clearable
+                  size="small"
+                  @keyup.enter.native="handleQuery" />
       </el-form-item>
       <!-- <el-form-item label="联系电话"
                     prop="telephone">
@@ -237,16 +232,13 @@
                   @keyup.enter.native="handleQuery" />
       </el-form-item> -->
       <el-form-item>
-        <el-button
-          type="primary"
-          icon="el-icon-search"
-          size="mini"
-          @click="handleQuery"
-          >搜索</el-button
-        >
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery"
-          >重置</el-button
-        >
+        <el-button type="primary"
+                   icon="el-icon-search"
+                   size="mini"
+                   @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh"
+                   size="mini"
+                   @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -291,19 +283,28 @@
                      @queryTable="getList"></right-toolbar>
     </el-row> -->
 
-    <el-table
-      v-loading="loading"
-      :data="emplsoyeeList"
-      @selection-change="handleSelectionChange"
-    >
-      <el-table-column type="selection" width="55" align="center" />
+    <el-table v-loading="loading"
+              :data="emplsoyeeList"
+              @selection-change="handleSelectionChange">
+      <el-table-column type="selection"
+                       width="55"
+                       align="center" />
       <!-- <el-table-column label="主键Id"
                        align="center"
                        prop="eid" /> -->
-      <el-table-column label="姓名" align="center" prop="userUame" />
-      <el-table-column label="人员类型" align="center" prop="politic" />
-      <el-table-column label="关键步骤" align="center" prop="processName" />
-      <el-table-column prop="gender" label="性别" align="center" width="60">
+      <el-table-column label="姓名"
+                       align="center"
+                       prop="userUame" />
+      <el-table-column label="人员类型"
+                       align="center"
+                       prop="politic" />
+      <el-table-column label="关键步骤"
+                       align="center"
+                       prop="processName" />
+      <el-table-column prop="gender"
+                       label="性别"
+                       align="center"
+                       width="60">
         <template slot-scope="scope">
           <span>{{
             scope.row.gender === 0
@@ -314,8 +315,12 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="身份证号" align="center" prop="idCard" />
-      <el-table-column label="所在党支部" align="center" width="110">
+      <el-table-column label="身份证号"
+                       align="center"
+                       prop="idCard" />
+      <el-table-column label="所在党支部"
+                       align="center"
+                       width="110">
         <template slot-scope="scope">
           <span>{{ scope.row.organs.organName }}</span>
         </template>
@@ -404,35 +409,27 @@
       <el-table-column label="联系电话"
                        align="center"
                        prop="telephone" /> -->
-      <el-table-column
-        label="操作"
-        align="center"
-        class-name="small-padding fixed-width"
-      >
+      <el-table-column label="操作"
+                       align="center"
+                       class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button
-            v-if="['群众', '团员'].includes(scope.row.politic)"
-            size="mini"
-            type="text"
-            icon="el-icon-circle-plus-outline"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:emplsoyee:edit']"
-            >新增</el-button
-          >
-          <el-button
-            v-if="!['群众', '团员', '党员'].includes(scope.row.politic)"
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="
+          <el-button v-if="['群众', '团员'].includes(scope.row.politic)"
+                     size="mini"
+                     type="text"
+                     icon="el-icon-circle-plus-outline"
+                     @click="handleUpdate(scope.row)"
+                     v-hasPermi="['system:emplsoyee:edit']">新增</el-button>
+          <el-button v-if="!['群众', '团员', '党员'].includes(scope.row.politic)"
+                     size="mini"
+                     type="text"
+                     icon="el-icon-edit"
+                     @click="
               $router.push({
                 name: 'Modifydetail',
                 query: { eid: scope.row.eid },
               })
             "
-            v-hasPermi="['system:emplsoyee:edit']"
-            >编辑</el-button
-          >
+                     v-hasPermi="['system:emplsoyee:edit']">编辑</el-button>
           <!-- <el-button
             size="mini"
             type="text"
@@ -445,44 +442,47 @@
       </el-table-column>
     </el-table>
 
-    <pagination
-      v-show="total > 0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+    <pagination v-show="total > 0"
+                :total="total"
+                :page.sync="queryParams.pageNum"
+                :limit.sync="queryParams.pageSize"
+                @pagination="getList" />
 
     <!-- 添加或修改人员信息对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <el-dialog :title="title"
+               :visible.sync="open"
+               width="600px"
+               append-to-body>
+      <el-form ref="form"
+               :model="form"
+               :rules="rules"
+               label-width="80px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="姓名" prop="userUame">
-              <el-input
-                v-model="form.userUame"
-                placeholder="请输入姓名"
-                maxlength="30"
-              />
+            <el-form-item label="姓名"
+                          prop="userUame">
+              <el-input v-model="form.userUame"
+                        placeholder="请输入姓名"
+                        maxlength="30" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="出生日期" prop="birthday">
-              <el-date-picker
-                clearable
-                size="small"
-                v-model="form.birthday"
-                type="date"
-                value-format="yyyy-MM-dd"
-                placeholder="选择出生日期"
-              >
+            <el-form-item label="出生日期"
+                          prop="birthday">
+              <el-date-picker clearable
+                              size="small"
+                              v-model="form.birthday"
+                              type="date"
+                              value-format="yyyy-MM-dd"
+                              placeholder="选择出生日期">
               </el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="性别" prop="gender">
+            <el-form-item label="性别"
+                          prop="gender">
               <el-radio-group v-model="form.gender">
                 <el-radio :label="0">男</el-radio>
                 <el-radio :label="1">女</el-radio>
@@ -490,23 +490,26 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="民族" prop="national">
-              <el-input v-model="form.national" placeholder="请输入民族" />
+            <el-form-item label="民族"
+                          prop="national">
+              <el-input v-model="form.national"
+                        placeholder="请输入民族" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="单位" prop="unit">
-              <el-input v-model="form.unit" placeholder="请输入单位" />
+            <el-form-item label="单位"
+                          prop="unit">
+              <el-input v-model="form.unit"
+                        placeholder="请输入单位" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="院校专业" prop="graduate">
-              <el-input
-                v-model="form.graduate"
-                placeholder="请输入毕业院校及专业"
-              />
+            <el-form-item label="院校专业"
+                          prop="graduate">
+              <el-input v-model="form.graduate"
+                        placeholder="请输入毕业院校及专业" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -517,63 +520,87 @@
             </el-form-item>
           </el-col> -->
           <el-col :span="12">
-            <el-form-item label="现任职务" prop="position">
-              <el-input v-model="form.position" placeholder="请输入现任职务" />
+            <el-form-item label="现任职务"
+                          prop="position">
+              <el-input v-model="form.position"
+                        placeholder="请输入现任职务" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="学号" prop="jobNumber">
-              <el-input v-model="form.jobNumber" placeholder="请输入学号" />
+            <el-form-item label="学号"
+                          prop="jobNumber">
+              <el-input v-model="form.jobNumber"
+                        placeholder="请输入学号" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="身份证号" prop="idCard">
-              <el-input v-model="form.idCard" placeholder="请输入身份证号" />
+            <el-form-item label="身份证号"
+                          prop="idCard">
+              <el-input v-model="form.idCard"
+                        placeholder="请输入身份证号" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="联系电话" prop="telephone">
-              <el-input v-model="form.telephone" placeholder="请输入联系电话" />
+            <el-form-item label="联系电话"
+                          prop="telephone">
+              <el-input v-model="form.telephone"
+                        placeholder="请输入联系电话" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="24">
-            <el-form-item
-              label="递交入党申请书日期"
-              label-width="200"
-              prop="idCard"
-            >
-              <el-date-picker
-                clearable
-                size="small"
-                v-model="form.joinDate"
-                type="date"
-                value-format="yyyy-MM-dd"
-                placeholder="选择递交入党申请书日期"
-              >
+            <el-form-item label="递交入党申请书日期"
+                          label-width="200"
+                          prop="idCard">
+              <el-date-picker clearable
+                              size="small"
+                              v-model="form.joinDate"
+                              type="date"
+                              value-format="yyyy-MM-dd"
+                              placeholder="选择递交入党申请书日期">
               </el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="24">
-            <el-form-item label="入党申请书" label-width="200" prop="telephone">
-              <el-upload
+            <el-form-item label="入党申请书"
+                          label-width="200"
+                          prop="telephone">
+              <!-- <el-upload
                 class="avatar-uploader"
                 action=""
                 :show-file-list="false"
               >
                 <i class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload> -->
+              <el-upload class="upload-demo"
+                         action="https://jsonplaceholder.typicode.com/posts/"
+                         :on-preview="handlePreview"
+                         :on-remove="handleRemove"
+                         :before-remove="beforeRemove"
+                         :before-upload="beforeUpload"
+                         multiple
+                         :limit="3"
+                         :on-success='otherVoucherSuccess'
+                         :file-list="fileList"
+                         :show-file-list="true">
+                <el-button size="small"
+                           type="primary">上传附件</el-button>
+                <div slot="tip"
+                     class="el-upload__tip">类型：pdf,doc,docx,xlx,xlsx,jpg,png,gif,bmp,rar,zip;大小不超过2M</div>
               </el-upload>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
+      <div slot="footer"
+           class="dialog-footer">
+        <el-button type="primary"
+                   @click="submitForm">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
@@ -593,7 +620,7 @@ import {
 export default {
   name: "Emplsoyee",
   components: {},
-  data() {
+  data () {
     return {
       tabList: [
         { label: "全部", name: "all" },
@@ -609,6 +636,7 @@ export default {
         { label: "硕士", value: 2 },
         { label: "博士", value: 3 },
       ],
+      fileList: [],//[{ name: 'food.jpeg' }],
       // 遮罩层
       loading: false,
       // 导出遮罩层
@@ -664,17 +692,17 @@ export default {
       rules: {},
     };
   },
-  created() {
+  created () {
     this.getList();
   },
   methods: {
-    handleClick() {
+    handleClick () {
       this.queryParams.politic =
-      this.activeName === "all" ? null : this.activeName;
+        this.activeName === "all" ? null : this.activeName;
       this.getList();
     },
     /** 查询人员信息列表 */
-    getList() {
+    getList () {
       this.loading = true;
       listEmplsoyee(this.queryParams).then((response) => {
         this.emplsoyeeList = response.rows;
@@ -683,12 +711,12 @@ export default {
       });
     },
     // 取消按钮
-    cancel() {
+    cancel () {
       this.open = false;
       this.reset();
     },
     // 表单重置
-    reset() {
+    reset () {
       this.form = {
         eid: null,
         userUame: null,
@@ -720,29 +748,43 @@ export default {
       this.resetForm("form");
     },
     /** 搜索按钮操作 */
-    handleQuery() {
+    handleQuery () {
       this.queryParams.pageNum = 1;
       this.getList();
     },
     /** 重置按钮操作 */
-    resetQuery() {
+    resetQuery () {
       this.resetForm("queryForm");
       this.handleQuery();
     },
+    beforeUpload (file) {
+      // 允许上传格式
+      let fileType = ['jpg', 'png', 'jpeg', 'pdf', 'docx', 'doc', 'zip', 'rar', 'xls', 'xlsx', 'bmp'];
+      let fileName = file.name
+      // console.log(fileName.substr(fileName.lastIndexOf(".") + 1))
+      if (!fileType.includes(fileName.substr(fileName.lastIndexOf(".") + 1))) {
+        this.$message({
+          message: `上传提示：当前支持类型：pdf,doc,docx,xlx,xlsx,jpg,png,gif,bmp,rar,zip;大小不超过2M`,
+          type: 'warning'
+        });
+        return false;
+      };beforeUpload
+      this.fileList.push(file.name);
+    },
     // 多选框选中数据
-    handleSelectionChange(selection) {
+    handleSelectionChange (selection) {
       this.ids = selection.map((item) => item.eid);
       this.single = selection.length !== 1;
       this.multiple = !selection.length;
     },
     /** 新增按钮操作 */
-    handleAdd() {
+    handleAdd () {
       this.reset();
       this.open = true;
       this.title = "添加人员信息";
     },
     /** 修改按钮操作 */
-    handleUpdate(row) {
+    handleUpdate (row) {
       this.reset();
       const eid = row.eid || this.ids;
       getEmplsoyee(eid).then((response) => {
@@ -752,15 +794,15 @@ export default {
       });
     },
     /** 提交按钮 */
-    submitForm() {
+    submitForm () {
       this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.form.eid != null) {
             let options = {
-              eid:this.form.eid,
-              currentProcess:1,
-              politic:'入党申请人',
-              joinDate:this.form.joinDate
+              eid: this.form.eid,
+              currentProcess: 1,
+              politic: '入党申请人',
+              joinDate: this.form.joinDate
             }
             updateEmplsoyee(options).then((response) => {
               this.msgSuccess("修改成功");
@@ -778,7 +820,7 @@ export default {
       });
     },
     /** 删除按钮操作 */
-    handleDelete(row) {
+    handleDelete (row) {
       const eids = row.eid || this.ids;
       this.$confirm(
         '是否确认删除人员信息编号为"' + eids + '"的数据项?',
@@ -796,10 +838,10 @@ export default {
           this.getList();
           this.msgSuccess("删除成功");
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     /** 导出按钮操作 */
-    handleExport() {
+    handleExport () {
       const queryParams = this.queryParams;
       this.$confirm("是否确认导出所有人员信息数据项?", "警告", {
         confirmButtonText: "确定",
@@ -814,7 +856,7 @@ export default {
           this.download(response.msg);
           this.exportLoading = false;
         })
-        .catch(() => {});
+        .catch(() => { });
     },
   },
 };

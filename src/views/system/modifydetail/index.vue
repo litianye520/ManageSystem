@@ -256,7 +256,20 @@
             <div></div>
             <div class="key">附件</div>
             <div>
-              <el-button type="primary">上传附件</el-button>
+              <el-upload class="upload-demo"
+                         action="https://jsonplaceholder.typicode.com/posts/"
+                         :on-preview="handlePreview"
+                         :on-remove="handleRemove"
+                         :before-remove="beforeRemove"
+                         :before-upload="beforeUpload"
+                         multiple
+                         :limit="3"
+                         :on-success='otherVoucherSuccess'
+                         :file-list="fileList"
+                         :show-file-list="true">
+                <el-button size="small"
+                           type="primary">上传附件</el-button>
+              </el-upload>
             </div>
             <div>
               类型：pdf,doc,docx,xls,xlsx,wps,jpg,png,gif,bmp,rar,zip;大小不超过2M
@@ -291,7 +304,20 @@
             <div></div>
             <div class="key">附件</div>
             <div>
-              <el-button type="primary">上传附件</el-button>
+              <el-upload class="upload-demo"
+                         action="https://jsonplaceholder.typicode.com/posts/"
+                         :on-preview="handlePreview"
+                         :on-remove="handleRemove"
+                         :before-remove="beforeRemove"
+                         :before-upload="beforeUpload"
+                         multiple
+                         :limit="3"
+                         :on-success='otherVoucherSuccess'
+                         :file-list="fileList"
+                         :show-file-list="true">
+                <el-button size="small"
+                           type="primary">上传附件</el-button>
+              </el-upload>
             </div>
             <div>
               类型：pdf,doc,docx,xls,xlsx,wps,jpg,png,gif,bmp,rar,zip;大小不超过2M
@@ -312,9 +338,9 @@
         </div>
         <div class="key">支委会或支部大会意见</div>
         <div>
-          <el-radio v-model="radio"
+          <el-radio v-model="radio7"
                     label="1">同意</el-radio>
-          <el-radio v-model="radio"
+          <el-radio v-model="radio7"
                     label="2">不同意</el-radio>
         </div>
       </div>
@@ -405,7 +431,20 @@
         </div>
         <div class="key">附件</div>
         <div>
-          <el-button type="primary">上传附件</el-button>类型：pdf,doc,docx,xls,xlsx,wps,jpg,png,gif,bmp,rar,zip;大小不超过2M
+          <el-upload class="upload-demo"
+                     action="https://jsonplaceholder.typicode.com/posts/"
+                     :on-preview="handlePreview"
+                     :on-remove="handleRemove"
+                     :before-remove="beforeRemove"
+                     :before-upload="beforeUpload"
+                     multiple
+                     :limit="3"
+                     :on-success='otherVoucherSuccess'
+                     :file-list="fileList"
+                     :show-file-list="true">
+            <el-button size="small"
+                       type="primary">上传附件</el-button> &nbsp; &nbsp;类型：pdf,doc,docx,xls,xlsx,wps,jpg,png,gif,bmp,rar,zip;大小不超过2M
+          </el-upload>
         </div>
       </div>
       <!-- 步骤十一 -->
@@ -456,7 +495,20 @@
         <div></div>
         <div class="key">附件</div>
         <div>
-          <el-button type="primary">上传附件</el-button>
+          <el-upload class="upload-demo"
+                     action="https://jsonplaceholder.typicode.com/posts/"
+                     :on-preview="handlePreview"
+                     :on-remove="handleRemove"
+                     :before-remove="beforeRemove"
+                     :before-upload="beforeUpload"
+                     multiple
+                     :limit="3"
+                     :on-success='otherVoucherSuccess'
+                     :file-list="fileList"
+                     :show-file-list="true">
+            <el-button size="small"
+                       type="primary">上传附件</el-button>
+          </el-upload>
         </div>
         <div>
           类型：pdf,doc,docx,xls,xlsx,wps,jpg,png,gif,bmp,rar,zip;大小不超过2M
@@ -551,16 +603,29 @@
         </div>
         <div class="key">支部大会意见</div>
         <div>
-          <el-radio v-model="radio16"
+          <el-radio v-model="zbradio15"
                     label="1">同意</el-radio>
-          <el-radio v-model="radio16"
+          <el-radio v-model="zbradio15"
                     label="2">不同意</el-radio>
         </div>
         <div></div>
         <div></div>
         <div class="key">支部大会会议记录</div>
         <div>
-          <el-button type="primary">上传附件</el-button>
+          <el-upload class="upload-demo"
+                     action="https://jsonplaceholder.typicode.com/posts/"
+                     :on-preview="handlePreview"
+                     :on-remove="handleRemove"
+                     :before-remove="beforeRemove"
+                     :before-upload="beforeUpload"
+                     multiple
+                     :limit="3"
+                     :on-success='otherVoucherSuccess'
+                     :file-list="fileList"
+                     :show-file-list="true">
+            <el-button size="small"
+                       type="primary">上传附件</el-button>
+          </el-upload>
         </div>
         <div>
           类型：pdf,doc,docx,xls,xlsx,wps,jpg,png,gif,bmp,rar,zip;大小不超过2M
@@ -609,7 +674,20 @@
         </div>
         <div class="key">会议记录</div>
         <div>
-          <el-button type="primary">上传文件</el-button>
+          <el-upload class="upload-demo"
+                     action="https://jsonplaceholder.typicode.com/posts/"
+                     :on-preview="handlePreview"
+                     :on-remove="handleRemove"
+                     :before-remove="beforeRemove"
+                     :before-upload="beforeUpload"
+                     multiple
+                     :limit="3"
+                     :on-success='otherVoucherSuccess'
+                     :file-list="fileList"
+                     :show-file-list="true">
+            <el-button size="small"
+                       type="primary">上传附件</el-button>
+          </el-upload>
         </div>
         <div class="key"></div>
         <div>
@@ -631,7 +709,7 @@
         <div>
           <el-radio v-model="radio18"
                     label="1">同意</el-radio>
-          <el-radio v-model="radio"
+          <el-radio v-model="radio18"
                     label="2">不同意</el-radio>
         </div>
       </div>
@@ -662,7 +740,20 @@
         </div>
         <div class="key">转正申请书</div>
         <div>
-          <el-button type="primary">上传附件</el-button>
+          <el-upload class="upload-demo"
+                     action="https://jsonplaceholder.typicode.com/posts/"
+                     :on-preview="handlePreview"
+                     :on-remove="handleRemove"
+                     :before-remove="beforeRemove"
+                     :before-upload="beforeUpload"
+                     multiple
+                     :limit="3"
+                     :on-success='otherVoucherSuccess'
+                     :file-list="fileList"
+                     :show-file-list="true">
+            <el-button size="small"
+                       type="primary">上传附件</el-button>
+          </el-upload>
         </div>
         <div class="key"></div>
         <div>
@@ -722,7 +813,20 @@
         <div></div>
         <div class="key">支部大会会议记录</div>
         <div>
-          <el-button type="primary">上传附件</el-button>
+          <el-upload class="upload-demo"
+                     action="https://jsonplaceholder.typicode.com/posts/"
+                     :on-preview="handlePreview"
+                     :on-remove="handleRemove"
+                     :before-remove="beforeRemove"
+                     :before-upload="beforeUpload"
+                     multiple
+                     :limit="3"
+                     :on-success='otherVoucherSuccess'
+                     :file-list="fileList"
+                     :show-file-list="true">
+            <el-button size="small"
+                       type="primary">上传附件</el-button>
+          </el-upload>
         </div>
         <div>
           类型：pdf,doc,docx,xls,xlsx,wps,jpg,png,gif,bmp,rar,zip;大小不超过2M
@@ -768,7 +872,20 @@
         </div>
         <div class="key">入党志愿书</div>
         <div>
-          <el-button type="primary">上传附件</el-button>
+          <el-upload class="upload-demo"
+                     action="https://jsonplaceholder.typicode.com/posts/"
+                     :on-preview="handlePreview"
+                     :on-remove="handleRemove"
+                     :before-remove="beforeRemove"
+                     :before-upload="beforeUpload"
+                     multiple
+                     :limit="3"
+                     :on-success='otherVoucherSuccess'
+                     :file-list="fileList"
+                     :show-file-list="true">
+            <el-button size="small"
+                       type="primary">上传附件</el-button>
+          </el-upload>
         </div>
         <div class="key"></div>
         <div>
@@ -790,6 +907,7 @@ export default {
   data () {
     return {
       detailsData: {},
+      fileList: [],
       stepIndex: 0,
       stepProgress: 0,
       stepTxt: "",
@@ -811,7 +929,7 @@ export default {
       // 考察  考察日期   考察内容
       kcDataStart6: "", kcDataEnd6: "", kcContent6: "",
       //07 确定发展对象
-      zbDate7: "",
+      zbDate7: "", radio7: "",
       //09 确定入党介绍人
       // 请选择联系人   请输入职务  请输入联系电话
       nineRelation1: "", ninePost1: "", ninePhone1: "",
@@ -834,7 +952,7 @@ export default {
       number14: "",
       // 15 支部大会讨论
       // 支部大会召开日期  应到人数  应到会有表决权人数  实到人数  实到会有表决权人数  支部大会意见
-      date15: "", count15: "", sjcount15: "", sdcount15: "", bjcount15: "", radio16: "",
+      date15: "", count15: "", sjcount15: "", sdcount15: "", bjcount15: "", zbradio15: "",
       // 16 上级党委派人谈话
       // 谈话日期   谈话人   谈话人职务
       date16: "", person16: "", post16: "",
@@ -880,52 +998,75 @@ export default {
         this.stepProgress = res.data.currentProcess;
       });
     },
-    handleSubmit () {
-      let options = {
-        eid: this.$route.query.eid,
-        currentProcess: Number(this.stepIndex),
+    beforeUpload (file) {
+      // 允许上传格式
+      let fileType = ['jpg', 'png', 'jpeg', 'pdf', 'docx', 'doc', 'zip', 'rar', 'xls', 'xlsx', 'bmp'];
+      let fileName = file.name
+      // console.log(fileName.substr(fileName.lastIndexOf(".") + 1))
+      if (!fileType.includes(fileName.substr(fileName.lastIndexOf(".") + 1))) {
+        this.$message({
+          message: `上传提示：当前支持类型：pdf,doc,docx,xlx,xlsx,jpg,png,gif,bmp,rar,zip;大小不超过2M`,
+          type: 'warning'
+        });
+        return false;
       };
-      this.stepIndex === "1" && (options.joinDate = this.form.joinDate);
-      if (this.stepIndex === "3") {
-        let dt = new Date();
-        let y, m, d;
-        y = dt.getFullYear();
-        m = dt.getMonth() + 1;
-        d = dt.getDay();
-        options.aitivTime = `${y}-${m}-${d}`;
-        options.politic = "入党积极分子";
+      this.fileList.push(file.name);
+    },
+    handleSubmit () {
+      debugger;
+      if (this.radio3 === "2" || this.radio7 === "2" || this.radio11 === "2"
+        || this.radio13 === "2" || this.radio14 === "2" || this.radio15 === "2"
+        || this.zbradio15 === "2" || this.radio17 === "2" || this.radio18 === "2"
+        || this.radioworker === "2" || this.radio22 === "2" || this.radio23 === "2") {
+        this.msgSuccess("保存成功");
+        this.dialogVisible = false;
+      } else {
+        let options = {
+          eid: this.$route.query.eid,
+          currentProcess: Number(this.stepIndex),
+        };
+        this.stepIndex === "1" && (options.joinDate = this.form.joinDate);
+        if (this.stepIndex === "3") {
+          let dt = new Date();
+          let y, m, d;
+          y = dt.getFullYear();
+          m = dt.getMonth() + 1;
+          d = dt.getDay();
+          options.aitivTime = `${y}-${m}-${d}`;
+          options.politic = "入党积极分子";
+        }
+        if (this.stepIndex === "7") {
+          options.politic = "入党申请人";
+        }
+        if (this.stepIndex === "8") {
+          let dt = new Date();
+          let y, m, d;
+          y = dt.getFullYear();
+          m = dt.getMonth() + 1;
+          d = dt.getDay();
+          options.developTime = `${y}-${m}-${d}`;
+          options.politic = "发展对象";
+        }
+        if (this.stepIndex === "18") {
+          let dt = new Date();
+          let y, m, d;
+          y = dt.getFullYear();
+          m = dt.getMonth() + 1;
+          d = dt.getDay();
+          options.memberTime = `${y}-${m}-${d}`;
+          options.politic = "预备党员";
+        }
+        if (this.stepIndex === "24") {
+          options.politic = "党员";
+        }
+        updateEmplsoyee(options).then((res) => {
+          if (res.code === 200) {
+            this.msgSuccess("保存成功");
+            this.dialogVisible = false;
+            this.stepProgress < 24 && this.stepProgress++;
+          } else this.msgError(res.msg);
+        });
       }
-      if (this.stepIndex === "7") {
-        options.politic = "入党申请人";
-      }
-      if (this.stepIndex === "8") {
-        let dt = new Date();
-        let y, m, d;
-        y = dt.getFullYear();
-        m = dt.getMonth() + 1;
-        d = dt.getDay();
-        options.developTime = `${y}-${m}-${d}`;
-        options.politic = "发展对象";
-      }
-      if (this.stepIndex === "18") {
-        let dt = new Date();
-        let y, m, d;
-        y = dt.getFullYear();
-        m = dt.getMonth() + 1;
-        d = dt.getDay();
-        options.memberTime = `${y}-${m}-${d}`;
-        options.politic = "预备党员";
-      }
-      if (this.stepIndex === "24") {
-        options.politic = "党员";
-      }
-      updateEmplsoyee(options).then((res) => {
-        if (res.code === 200) {
-          this.msgSuccess("保存成功");
-          this.dialogVisible = false;
-          this.stepProgress < 24 && this.stepProgress++;
-        } else this.msgError(res.msg);
-      });
     },
   },
   watch: {
